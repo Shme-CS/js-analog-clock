@@ -5,8 +5,8 @@ const hourHand = document.getElementById('hourHand');
 const minuteHand = document.getElementById('minuteHand');
 const secondHand = document.getElementById('secondHand');
 
-// Function to set clock hands based on current time
-function setClock() {
+// Function to update clock hands based on current time
+function updateClock() {
     // Get current time
     const now = new Date();
     const hours = now.getHours();
@@ -29,10 +29,12 @@ function setClock() {
     secondHand.style.transform = `translateX(-50%) rotate(${secondDegrees}deg)`;
     minuteHand.style.transform = `translateX(-50%) rotate(${minuteDegrees}deg)`;
     hourHand.style.transform = `translateX(-50%) rotate(${hourDegrees}deg)`;
-
-    console.log(`Time: ${hours}:${minutes}:${seconds}`);
-    console.log(`Angles - Hour: ${hourDegrees}°, Minute: ${minuteDegrees}°, Second: ${secondDegrees}°`);
 }
 
 // Initialize clock on page load
-setClock();
+updateClock();
+
+// Update clock every second (1000 milliseconds)
+setInterval(updateClock, 1000);
+
+console.log('Analog Clock running with real-time updates');
