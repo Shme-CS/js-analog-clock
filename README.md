@@ -22,6 +22,8 @@ A beautiful, feature-rich analog clock application built with vanilla JavaScript
 - [License](#license)
 - [Author](#author)
 
+---
+
 ## ✨ Features
 
 ### Core Functionality
