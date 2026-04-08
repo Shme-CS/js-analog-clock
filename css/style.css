@@ -4,41 +4,112 @@
     box-sizing: border-box;
 }
 
+:root {
+    --bg-gradient-start: #667eea;
+    --bg-gradient-end: #764ba2;
+    --text-color: #ffffff;
+    --clock-bg: linear-gradient(145deg, #ffffff, #f0f0f0);
+    --clock-border: #2c3e50;
+    --number-color: #2c3e50;
+    --hand-primary: #2c3e50;
+    --hand-secondary: #34495e;
+    --hand-accent: #e74c3c;
+    --digital-bg: rgba(255, 255, 255, 0.15);
+    --digital-text: #ffffff;
+    --select-bg: rgba(255, 255, 255, 0.2);
+    --select-text: #ffffff;
+}
+
+body.dark-theme {
+    --bg-gradient-start: #1a1a2e;
+    --bg-gradient-end: #16213e;
+    --text-color: #ffffff;
+    --clock-bg: linear-gradient(145deg, #2c3e50, #34495e);
+    --clock-border: #ecf0f1;
+    --number-color: #ecf0f1;
+    --hand-primary: #ecf0f1;
+    --hand-secondary: #bdc3c7;
+    --hand-accent: #e74c3c;
+    --digital-bg: rgba(0, 0, 0, 0.3);
+    --digital-text: #ecf0f1;
+    --select-bg: rgba(0, 0, 0, 0.3);
+    --select-text: #ecf0f1;
+}
+
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
     margin: 0;
     padding: 20px;
+    transition: background 0.5s ease;
 }
 
 .container {
     text-align: center;
 }
 
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
 h1 {
-    color: #ffffff;
+    color: var(--text-color);
     font-size: 3rem;
-    margin-bottom: 3rem;
     text-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
     letter-spacing: 4px;
     font-weight: 200;
     text-transform: uppercase;
+    transition: color 0.3s ease;
+}
+
+.theme-toggle {
+    background: var(--digital-bg);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.theme-toggle:hover {
+    transform: scale(1.1);
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.theme-icon {
+    transition: transform 0.3s ease;
+}
+
+.theme-toggle:active .theme-icon {
+    transform: rotate(360deg);
 }
 
 .clock {
     width: 350px;
     height: 350px;
-    background: linear-gradient(145deg, #ffffff, #f0f0f0);
+    background: var(--clock-bg);
     border-radius: 50%;
     box-shadow: 
         0 20px 60px rgba(0, 0, 0, 0.4),
         inset 0 0 20px rgba(0, 0, 0, 0.05);
     position: relative;
-    border: 12px solid #2c3e50;
+    border: 12px solid var(--clock-border);
+    margin: 0 auto;
+    transition: all 0.5s ease;
 }
 
 .clock::before {
@@ -61,8 +132,9 @@ h1 {
     text-align: center;
     font-size: 1.6rem;
     font-weight: 600;
-    color: #2c3e50;
+    color: var(--number-color);
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    transition: color 0.3s ease;
 }
 
 .number-1 { transform: rotate(30deg); }
@@ -106,16 +178,16 @@ h1 {
     bottom: 50%;
     left: 50%;
     transform-origin: bottom center;
-    background: #2c3e50;
+    background: var(--hand-primary);
     border-radius: 20px;
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 .hour-hand {
     width: 8px;
     height: 90px;
-    background: linear-gradient(180deg, #2c3e50 0%, #34495e 100%);
+    background: linear-gradient(180deg, var(--hand-primary) 0%, var(--hand-secondary) 100%);
     transform: translateX(-50%) rotate(0deg);
     z-index: 3;
 }
@@ -123,7 +195,7 @@ h1 {
 .minute-hand {
     width: 6px;
     height: 120px;
-    background: linear-gradient(180deg, #34495e 0%, #546e7a 100%);
+    background: linear-gradient(180deg, var(--hand-secondary) 0%, var(--hand-primary) 100%);
     transform: translateX(-50%) rotate(0deg);
     z-index: 4;
 }
@@ -131,7 +203,7 @@ h1 {
 .second-hand {
     width: 3px;
     height: 130px;
-    background: linear-gradient(180deg, #e74c3c 0%, #c0392b 100%);
+    background: linear-gradient(180deg, var(--hand-accent) 0%, #c0392b 100%);
     transform: translateX(-50%) rotate(0deg);
     z-index: 5;
     box-shadow: 0 2px 10px rgba(231, 76, 60, 0.4);
@@ -163,23 +235,100 @@ h1 {
     transform: translateX(-50%);
     width: 4px;
     height: 20px;
-    background: linear-gradient(180deg, #2c3e50 0%, #34495e 100%);
+    background: linear-gradient(180deg, var(--hand-primary) 0%, var(--hand-secondary) 100%);
     border-radius: 2px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    transition: background 0.3s ease;
+}
+
+.digital-display {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background: var(--digital-bg);
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+}
+
+.digital-time {
+    font-size: 3rem;
+    font-weight: 300;
+    color: var(--digital-text);
+    letter-spacing: 3px;
+    font-family: 'Courier New', monospace;
+    margin-bottom: 0.5rem;
+    transition: color 0.3s ease;
+}
+
+.date-display {
+    font-size: 1.2rem;
+    color: var(--digital-text);
+    opacity: 0.9;
+    font-weight: 300;
+    transition: color 0.3s ease;
+}
+
+.timezone-selector {
+    margin-top: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.timezone-selector label {
+    color: var(--text-color);
+    font-size: 1rem;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.timezone-selector select {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    border-radius: 10px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    background: var(--select-bg);
+    color: var(--select-text);
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.timezone-selector select:hover {
+    background: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+.timezone-selector select:focus {
+    outline: none;
+    border-color: rgba(255, 255, 255, 0.6);
 }
 
 /* Responsive design for smaller screens */
 @media (max-width: 480px) {
+    .header {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
     h1 {
         font-size: 2.2rem;
-        margin-bottom: 2rem;
         letter-spacing: 3px;
+    }
+
+    .theme-toggle {
+        width: 45px;
+        height: 45px;
+        font-size: 1.3rem;
     }
 
     .clock {
         width: 280px;
         height: 280px;
-        border: 10px solid #2c3e50;
+        border: 10px solid var(--clock-border);
     }
 
     .clock::before {
@@ -208,5 +357,23 @@ h1 {
 
     .number {
         font-size: 1.4rem;
+    }
+
+    .digital-time {
+        font-size: 2rem;
+    }
+
+    .date-display {
+        font-size: 1rem;
+    }
+
+    .timezone-selector {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .timezone-selector select {
+        width: 100%;
+        max-width: 250px;
     }
 }

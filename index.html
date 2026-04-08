@@ -10,7 +10,13 @@
 </head>
 <body>
     <div class="container">
-        <h1>Analog Clock</h1>
+        <div class="header">
+            <h1>Analog Clock</h1>
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                <span class="theme-icon">🌙</span>
+            </button>
+        </div>
+        
         <div class="clock" id="clock">
             <div class="number number-1">1</div>
             <div class="number number-2">2</div>
@@ -28,6 +34,27 @@
             <div class="hand minute-hand" id="minuteHand"></div>
             <div class="hand second-hand" id="secondHand"></div>
             <div class="center-dot"></div>
+        </div>
+
+        <div class="digital-display">
+            <div class="digital-time" id="digitalTime">00:00:00</div>
+            <div class="date-display" id="dateDisplay">Monday, January 1, 2026</div>
+        </div>
+
+        <div class="timezone-selector">
+            <label for="timezoneSelect">Timezone:</label>
+            <select id="timezoneSelect">
+                <option value="local">Local Time</option>
+                <option value="America/New_York">New York (EST)</option>
+                <option value="America/Los_Angeles">Los Angeles (PST)</option>
+                <option value="America/Chicago">Chicago (CST)</option>
+                <option value="Europe/London">London (GMT)</option>
+                <option value="Europe/Paris">Paris (CET)</option>
+                <option value="Asia/Tokyo">Tokyo (JST)</option>
+                <option value="Asia/Dubai">Dubai (GST)</option>
+                <option value="Asia/Shanghai">Shanghai (CST)</option>
+                <option value="Australia/Sydney">Sydney (AEDT)</option>
+            </select>
         </div>
     </div>
     <script src="js/script.js"></script>

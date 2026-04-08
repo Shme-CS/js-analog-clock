@@ -1,43 +1,137 @@
-// Analog Clock JavaScript
+// Analog Clock JavaScript - Modular Structure
 
-// Get clock hand elements
+// ========== DOM Elements ==========
 const hourHand = document.getElementById('hourHand');
 const minuteHand = document.getElementById('minuteHand');
 const secondHand = document.getElementById('secondHand');
+const digitalTime = document.getElementById('digitalTime');
+const dateDisplay = document.getElementById('dateDisplay');
+const themeToggle = document.getElementById('themeToggle');
+const timezoneSelect = document.getElementById('timezoneSelect');
 
+// ========== State Management ==========
+let selectedTimezone = 'local';
+let isDarkTheme = false;
+
+// ========== Theme Management ==========
 /**
- * Updates the clock hands based on current time
- * Calculates rotation angles for hour, minute, and second hands
+ * Initialize theme from localStorage
  */
-function updateClock() {
-    // Get current time
-    const now = new Date();
-    const hours = now.getHours();
-    const minutes = now.getMinutes();
-    const seconds = now.getSeconds();
-
-    // Calculate rotation angles
-    // Second hand: 360° / 60 seconds = 6° per second
-    const secondDegrees = (seconds * 6);
-
-    // Minute hand: 360° / 60 minutes = 6° per minute
-    // Add extra rotation based on seconds for smooth movement
-    const minuteDegrees = (minutes * 6) + (seconds * 0.1);
-
-    // Hour hand: 360° / 12 hours = 30° per hour
-    // Add extra rotation based on minutes for smooth movement
-    const hourDegrees = (hours % 12) * 30 + (minutes * 0.5);
-
-    // Apply rotation to clock hands
-    secondHand.style.transform = `translateX(-50%) rotate(${secondDegrees}deg)`;
-    minuteHand.style.transform = `translateX(-50%) rotate(${minuteDegrees}deg)`;
-    hourHand.style.transform = `translateX(-50%) rotate(${hourDegrees}deg)`;
+function initTheme() {
+    const savedTheme = localStorage.getItem('clockTheme');
+    if (savedTheme === 'dark') {
+        isDarkTheme = true;
+        document.body.classList.add('dark-theme');
+        themeToggle.querySelector('.theme-icon').textContent = '☀️';
+    }
 }
 
-// Initialize clock on page load
-updateClock();
+/**
+ * Toggle between light and dark themes
+ */
+function toggleTheme() {
+    isDarkTheme = !isDarkTheme;
+    document.body.classList.toggle('dark-theme');
+    
+    const icon = themeToggle.querySelector('.theme-icon');
+    icon.textContent = isDarkTheme ? '☀️' : '🌙';
+    
+    localStorage.setItem('clockTheme', isDarkTheme ? 'dark' : 'light');
+}
 
-// Update clock every second (1000 milliseconds)
+// ========== Time Calculation ==========
+/**
+ * Get current time based on selected timezone
+ * @returns {Date} Date object for the selected timezone
+ */
+function getCurrentTime() {
+    if (selectedTimezone === 'local') {
+        return new Date();
+    }
+    
+    const now = new Date();
+    const localTime = now.toLocaleString('en-US', { timeZone: selectedTimezone });
+    return new Date(localTime);
+}
+
+/**
+ * Calculate rotation angles for clock hands
+ * @param {Date} time - Current time
+ * @returns {Object} Rotation angles for each hand
+ */
+function calculateAngles(time) {
+    const hours = time.getHours();
+    const minutes = time.getMinutes();
+    const seconds = time.getSeconds();
+
+    return {
+        second: seconds * 6,
+        minute: minutes * 6 + seconds * 0.1,
+        hour: (hours % 12) * 30 + minutes * 0.5
+    };
+}
+
+// ========== Clock Updates ==========
+/**
+ * Update analog clock hands
+ * @param {Object} angles - Rotation angles for hands
+ */
+function updateAnalogClock(angles) {
+    secondHand.style.transform = `translateX(-50%) rotate(${angles.second}deg)`;
+    minuteHand.style.transform = `translateX(-50%) rotate(${angles.minute}deg)`;
+    hourHand.style.transform = `translateX(-50%) rotate(${angles.hour}deg)`;
+}
+
+/**
+ * Update digital time display
+ * @param {Date} time - Current time
+ */
+function updateDigitalDisplay(time) {
+    const hours = String(time.getHours()).padStart(2, '0');
+    const minutes = String(time.getMinutes()).padStart(2, '0');
+    const seconds = String(time.getSeconds()).padStart(2, '0');
+    
+    digitalTime.textContent = `${hours}:${minutes}:${seconds}`;
+}
+
+/**
+ * Update date display
+ * @param {Date} time - Current time
+ */
+function updateDateDisplay(time) {
+    const options = { 
+        weekday: 'long', 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric' 
+    };
+    
+    dateDisplay.textContent = time.toLocaleDateString('en-US', options);
+}
+
+/**
+ * Main update function - updates all clock components
+ */
+function updateClock() {
+    const currentTime = getCurrentTime();
+    const angles = calculateAngles(currentTime);
+    
+    updateAnalogClock(angles);
+    updateDigitalDisplay(currentTime);
+    updateDateDisplay(currentTime);
+}
+
+// ========== Event Listeners ==========
+themeToggle.addEventListener('click', toggleTheme);
+
+timezoneSelect.addEventListener('change', (e) => {
+    selectedTimezone = e.target.value;
+    updateClock();
+});
+
+// ========== Initialization ==========
+initTheme();
+updateClock();
 setInterval(updateClock, 1000);
 
-console.log('Analog Clock running with real-time updates');
+console.log('Analog Clock with advanced features initialized');
