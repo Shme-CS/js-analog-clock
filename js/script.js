@@ -5,7 +5,10 @@ const hourHand = document.getElementById('hourHand');
 const minuteHand = document.getElementById('minuteHand');
 const secondHand = document.getElementById('secondHand');
 
-// Function to update clock hands based on current time
+/**
+ * Updates the clock hands based on current time
+ * Calculates rotation angles for hour, minute, and second hands
+ */
 function updateClock() {
     // Get current time
     const now = new Date();
