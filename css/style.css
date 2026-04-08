@@ -30,4 +30,64 @@ h1 {
     background: #ffffff;
     border-radius: 50%;
     box-shadow: 0 10px 50px rgba(0, 0, 0, 0.3);
+    position: relative;
+    border: 8px solid #333;
+}
+
+.number {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.number-1 { transform: rotate(30deg); }
+.number-1::before { content: '1'; transform: rotate(-30deg); display: inline-block; margin-top: 15px; }
+
+.number-2 { transform: rotate(60deg); }
+.number-2::before { content: '2'; transform: rotate(-60deg); display: inline-block; margin-top: 15px; }
+
+.number-3 { transform: rotate(90deg); }
+.number-3::before { content: '3'; transform: rotate(-90deg); display: inline-block; margin-top: 15px; }
+
+.number-4 { transform: rotate(120deg); }
+.number-4::before { content: '4'; transform: rotate(-120deg); display: inline-block; margin-top: 15px; }
+
+.number-5 { transform: rotate(150deg); }
+.number-5::before { content: '5'; transform: rotate(-150deg); display: inline-block; margin-top: 15px; }
+
+.number-6 { transform: rotate(180deg); }
+.number-6::before { content: '6'; transform: rotate(-180deg); display: inline-block; margin-top: 15px; }
+
+.number-7 { transform: rotate(210deg); }
+.number-7::before { content: '7'; transform: rotate(-210deg); display: inline-block; margin-top: 15px; }
+
+.number-8 { transform: rotate(240deg); }
+.number-8::before { content: '8'; transform: rotate(-240deg); display: inline-block; margin-top: 15px; }
+
+.number-9 { transform: rotate(270deg); }
+.number-9::before { content: '9'; transform: rotate(-270deg); display: inline-block; margin-top: 15px; }
+
+.number-10 { transform: rotate(300deg); }
+.number-10::before { content: '10'; transform: rotate(-300deg); display: inline-block; margin-top: 15px; }
+
+.number-11 { transform: rotate(330deg); }
+.number-11::before { content: '11'; transform: rotate(-330deg); display: inline-block; margin-top: 15px; }
+
+.number-12 { transform: rotate(0deg); }
+.number-12::before { content: '12'; transform: rotate(0deg); display: inline-block; margin-top: 15px; }
+
+.center-dot {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 12px;
+    height: 12px;
+    background: #333;
+    border-radius: 50%;
+    z-index: 10;
 }
